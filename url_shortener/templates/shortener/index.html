@@ -3,7 +3,7 @@
 <h2>Recent Links</h2>
 <ul>
 {% for link in recent_links %}
-<li><a href="{{ link.short_url }}">{{ link.url}} ({{ link.shortcut }})</a> (Score: {{ link.usage_count }})
+<li><a href="{{ link.short_url }}" title="{{ link.url }}">{{ link.shortcut }}</a> (Score: {{ link.usage_count }})
 (<a href="{% url url_shortener.views.info link.shortcut %}">Info</a>)</li>
 {% endfor %}
 </ul>
@@ -11,7 +11,7 @@
 <h2>Most Popular Links</h2>
 <ul>
 {% for link in most_popular_links %}
-<li><a href="{{ link.short_url }}">{{ link.url}} ({{ link.shortcut }})</a> (Score: {{ link.usage_count }})
+<li><a href="{{ link.short_url }}" title="{{ link.url }}">{{ link.shortcut }}</a> (Score: {{ link.usage_count }})
 (<a href="{% url url_shortener.views.info link.shortcut %}">Info</a>)</li>
 {% endfor %}
 </ul>

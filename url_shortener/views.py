@@ -15,10 +15,16 @@ def follow(request, shortcut):
     View which gets the link for the given shortcut value
     and redirects to it.
     """
-    link = get_object_or_404(Link, shortcut=shortcut)
-    link.usage_count += 1
-    link.save()
-    return HttpResponsePermanentRedirect(link.url)
+    try:
+        link = Link.objects.get(shortcut=shortcut)
+        link.usage_count += 1
+        link.save()
+        return HttpResponsePermanentRedirect(link.url)
+    except:
+        values = default_values(request)
+        values["error"] = "This shortcut doesn't yet exit.  Create it now!"
+        values["link_form"].initial["shortcut"] = shortcut
+        return index(request, values)
 
 
 def default_values(request, link_form=None):
@@ -90,11 +96,13 @@ def submit(request):
         context_instance=RequestContext(request))
 
 
-def index(request):
+def index(request, values=None):
     """
     View for main page (lists recent and popular links)
     """
-    values = default_values(request)
+    if not values:
+        values = default_values(request)
+
     values['recent_links'] = Link.objects.all().order_by(
         '-date_submitted')[0:10]
     values['most_popular_links'] = Link.objects.all().order_by(
