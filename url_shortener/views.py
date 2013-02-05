@@ -7,7 +7,7 @@ from django.http import (
 from django.template import RequestContext
 from django.conf import settings
 
-from urlweb.shortener.models import Link, LinkSubmitForm
+from url_shortener.models import Link, LinkSubmitForm
 
 
 def follow(request, shortcut):
