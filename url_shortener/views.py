@@ -7,17 +7,15 @@ from django.http import (
 from django.template import RequestContext
 from django.conf import settings
 
-from urlweb.shortener.baseconv import base62
 from urlweb.shortener.models import Link, LinkSubmitForm
 
 
-def follow(request, base62_id):
+def follow(request, shortcut):
     """
-    View which gets the link for the given base62_id value
+    View which gets the link for the given shortcut value
     and redirects to it.
     """
-    key = base62.to_decimal(base62_id)
-    link = get_object_or_404(Link, pk=key)
+    link = get_object_or_404(Link, pk=shortcut)
     link.usage_count += 1
     link.save()
     return HttpResponsePermanentRedirect(link.url)
@@ -30,6 +28,7 @@ def default_values(request, link_form=None):
     """
     if not link_form:
         link_form = LinkSubmitForm()
+
     allowed_to_submit = is_allowed_to_submit(request)
     return {'show_bookmarklet': allowed_to_submit,
             'show_url_form': allowed_to_submit,
@@ -39,12 +38,11 @@ def default_values(request, link_form=None):
             }
 
 
-def info(request, base62_id):
+def info(request, shortcut):
     """
     View which shows information on a particular link
     """
-    key = base62.to_decimal(base62_id)
-    link = get_object_or_404(Link, pk=key)
+    link = get_object_or_404(Link, pk=shortcut)
     values = default_values(request)
     values['link'] = link
     return render_to_response(

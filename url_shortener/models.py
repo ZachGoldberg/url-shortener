@@ -37,15 +37,16 @@ class Link(models.Model):
     1
 
     """
-    url = models.URLField(verify_exists=True, unique=True)
+    url = models.URLField(verify_exists=True)
+    shortcut = models.CharField(max_length=128, unique=True)
     date_submitted = models.DateTimeField(auto_now_add=True)
     usage_count = models.IntegerField(default=0)
 
     def short_url(self):
-        return settings.SITE_BASE_URL + self.to_base62()
+        return settings.SITE_BASE_URL + self.shortcut
 
     def __unicode__(self):
-        return self.url
+        return "%s (http://go/%s)" % (self.url, self.shortcut)
 
 
 class LinkSubmitForm(forms.Form):
