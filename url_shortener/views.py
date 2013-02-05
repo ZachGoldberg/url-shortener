@@ -20,9 +20,13 @@ def follow(request, shortcut):
         link.usage_count += 1
         link.save()
 
+        user = request.user
+        if user.is_anonymous():
+            user = None
+
         Click.objects.create(
             link=link,
-            user=request.user,
+            user=user,
             useragent=request.META['HTTP_USER_AGENT'])
 
         return HttpResponseRedirect(link.url)
