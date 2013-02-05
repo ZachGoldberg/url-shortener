@@ -1,6 +1,7 @@
-from django.db import models
-from django.conf import settings
 from django import forms
+from django.conf import settings
+from django.contrib.auth.models import User
+from django.db import models
 
 
 class Link(models.Model):
@@ -39,6 +40,8 @@ class Link(models.Model):
     """
     url = models.URLField(verify_exists=True)
     shortcut = models.CharField(max_length=128, unique=True)
+    submitter = models.OneToOneField(User, null=True)
+
     date_submitted = models.DateTimeField(auto_now_add=True)
     usage_count = models.IntegerField(default=0)
 

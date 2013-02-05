@@ -73,14 +73,17 @@ def submit(request):
     if link_form and link_form.is_valid():
         url = link_form.cleaned_data['url']
         shortcut = link_form.cleaned_data['shortcut']
+        submitter = request.user
         link = None
         try:
             link = Link.objects.get(shortcut=shortcut)
         except Link.DoesNotExist:
             pass
+
         if link is None:
             new_link = Link(url=url,
-                            shortcut=shortcut)
+                            shortcut=shortcut,
+                            submitter=submitter)
             new_link.save()
             link = new_link
         values = default_values(request)
