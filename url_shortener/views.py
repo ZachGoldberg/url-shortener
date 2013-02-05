@@ -3,7 +3,7 @@ from django.shortcuts import (
     render_to_response)
 from django.http import (
     Http404,
-    HttpResponsePermanentRedirect)
+    HttpResponseRedirect)
 from django.template import RequestContext
 from django.conf import settings
 
@@ -25,7 +25,7 @@ def follow(request, shortcut):
             user=request.user,
             useragent=request.META['HTTP_USER_AGENT'])
 
-        return HttpResponsePermanentRedirect(link.url)
+        return HttpResponseRedirect(link.url)
     except:
         values = default_values(request)
         values["error"] = "This shortcut doesn't yet exit.  Create it now!"
