@@ -68,3 +68,7 @@ class LinkSubmitForm(forms.Form):
                          )
     shortcut = forms.CharField(max_length=128,
                                label='Shortcut text')
+
+    def __init__(self, *args, **kwargs):
+        super(LinkSubmitForm, self).__init__(*args, **kwargs)
+        self.fields['url'].widget.attrs['autofocus'] = 'autofocus'
