@@ -40,7 +40,7 @@ class Link(models.Model):
     """
     url = models.URLField(verify_exists=True)
     shortcut = models.CharField(max_length=128, unique=True)
-    submitter = models.OneToOneField(User, null=True)
+    submitter = models.ForeignKey(User, null=True)
 
     date_submitted = models.DateTimeField(auto_now_add=True)
     usage_count = models.IntegerField(default=0)
@@ -53,9 +53,9 @@ class Link(models.Model):
 
 
 class Click(models.Model):
-    link = models.OneToOneField(Link)
+    link = models.ForeignKey(Link)
     date = models.DateTimeField(auto_now_add=True, null=True)
-    user = models.OneToOneField(User, null=True)
+    user = models.ForeignKey(User, null=True)
     useragent = models.CharField(max_length=256)
 
     def __unicode__(self):
