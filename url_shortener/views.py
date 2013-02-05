@@ -15,7 +15,7 @@ def follow(request, shortcut):
     View which gets the link for the given shortcut value
     and redirects to it.
     """
-    link = get_object_or_404(Link, pk=shortcut)
+    link = get_object_or_404(Link, shortcut=shortcut)
     link.usage_count += 1
     link.save()
     return HttpResponsePermanentRedirect(link.url)
@@ -42,7 +42,7 @@ def info(request, shortcut):
     """
     View which shows information on a particular link
     """
-    link = get_object_or_404(Link, pk=shortcut)
+    link = get_object_or_404(Link, shortcut=shortcut)
     values = default_values(request)
     values['link'] = link
     return render_to_response(
@@ -65,14 +65,16 @@ def submit(request):
     elif request.POST:
         link_form = LinkSubmitForm(request.POST)
     if link_form and link_form.is_valid():
-        url = link_form.cleaned_data['u']
+        url = link_form.cleaned_data['url']
+        shortcut = link_form.cleaned_data['shortcut']
         link = None
         try:
-            link = Link.objects.get(url=url)
+            link = Link.objects.get(shortcut=shortcut)
         except Link.DoesNotExist:
             pass
         if link is None:
-            new_link = Link(url=url)
+            new_link = Link(url=url,
+                            shortcut=shortcut)
             new_link.save()
             link = new_link
         values = default_values(request)

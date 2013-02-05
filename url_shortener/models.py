@@ -50,6 +50,8 @@ class Link(models.Model):
 
 
 class LinkSubmitForm(forms.Form):
-    u = forms.URLField(verify_exists=True,
+    url = forms.URLField(verify_exists=True,
                        label='URL to be shortened:',
                        )
+    shortcut = forms.CharField(max_length=128,
+                               label='Shortcut text')
