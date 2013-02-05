@@ -1,11 +1,7 @@
-import datetime
-
 from django.db import models
 from django.conf import settings
-#from django.contrib.auth.models import User
 from django import forms
 
-from urlweb.shortener.baseconv import base62
 
 class Link(models.Model):
     """
@@ -13,7 +9,7 @@ class Link(models.Model):
 
     # Initialize by deleting all Link objects
     >>> Link.objects.all().delete()
-    
+
     # Create some Link objects
     >>> link1 = Link.objects.create(url="http://www.google.com/")
     >>> link2 = Link.objects.create(url="http://www.nileshk.com/")
@@ -23,7 +19,7 @@ class Link(models.Model):
     'B'
     >>> link2.to_base62()
     'C'
-    
+
     # Set SITE_BASE_URL to something specific
     >>> settings.SITE_BASE_URL = 'http://uu4.us/'
 
@@ -45,14 +41,12 @@ class Link(models.Model):
     date_submitted = models.DateTimeField(auto_now_add=True)
     usage_count = models.IntegerField(default=0)
 
-    def to_base62(self):
-        return base62.from_decimal(self.id)
-
     def short_url(self):
         return settings.SITE_BASE_URL + self.to_base62()
-    
+
     def __unicode__(self):
-        return self.to_base62() + ' : ' + self.url
+        return self.url
+
 
 class LinkSubmitForm(forms.Form):
     u = forms.URLField(verify_exists=True,

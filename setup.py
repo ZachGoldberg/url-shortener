@@ -4,33 +4,6 @@ import url_shortener
 import os
 import urllib
 
-def setup_distribute():
-    """
-    This will download and install Distribute.
-    """
-    try:
-        import distribute_setup
-    except:
-        # Make sure we have Distribute
-        if not os.path.exists('distribute_setup'):
-            urllib.urlretrieve('http://nightly.ziade.org/distribute_setup.py',
-                               './distribute_setup.py')
-        distribute_setup = __import__('distribute_setup')
-    distribute_setup.use_setuptools()
-
-def get_reqs(reqs=[]):
-    # optparse is included with Python <= 2.7, but has been deprecated in favor
-    # of argparse.  We try to import argparse and if we can't, then we'll add
-    # it to the requirements
-    try:
-        import argparse
-    except ImportError:
-        reqs.append("argparse>=1.1")
-    return reqs
-
-# Make sure we have Distribute installed
-setup_distribute()
-
 setup(
     name = "url_shortener",
     packages = find_packages(),
@@ -51,5 +24,5 @@ setup(
         'Programming Language :: Python',
         'Framework :: Django',
     ],
-    install_requires = get_reqs(["Django>=1.0"]),
+    install_requires = ["Django>=1.0"],
 )
