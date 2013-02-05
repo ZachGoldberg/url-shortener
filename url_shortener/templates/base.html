@@ -31,18 +31,16 @@
 
   <body>
     <div class="container">
-      <div class="span-24 last">
+      <div class="span-19">
         <h1><a href="{{ site_base_url }}">{{ site_name }}</a></h1>
         <hr/>
       </div>
-
-      <div class="span-19 colborder">
+      <div class="span-19">
         {% if show_url_form %}
         {% block url_form %}
         {% if error %}
         <h3><font color='red'> {{ error }} </font></h3>
         {% endif %}
-
         <form name="url_form" action="/submit/" method="get">
           {{ link_form.as_p }}
           <input type="submit" value="Submit Link" />
@@ -52,11 +50,11 @@
         {% endblock %}
         {% endif %}
       </div>
-      <div class="span-24 last">
+      <div class="span-19">
         {% block content %}{% endblock %}
         <hr/>
       </div>
-      <div class="span-4 last">
+      <div class="span-19">
         {% if show_bookmarklet %}
         {% block bookmarklet %}
         <br/>
