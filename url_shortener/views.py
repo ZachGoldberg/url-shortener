@@ -7,7 +7,7 @@ from django.http import (
 from django.template import RequestContext
 from django.conf import settings
 
-from url_shortener.models import Link, LinkSubmitForm
+from url_shortener.models import Click, Link, LinkSubmitForm
 
 
 def follow(request, shortcut):
@@ -19,6 +19,12 @@ def follow(request, shortcut):
         link = Link.objects.get(shortcut=shortcut)
         link.usage_count += 1
         link.save()
+
+        Click.objects.create(
+            link=link,
+            user=request.user,
+            useragent=request.META['HTTP_USER_AGENT'])
+
         return HttpResponsePermanentRedirect(link.url)
     except:
         values = default_values(request)

@@ -52,6 +52,16 @@ class Link(models.Model):
         return "%s (http://go/%s)" % (self.url, self.shortcut)
 
 
+class Click(models.Model):
+    link = models.OneToOneField(Link)
+    date = models.DateTimeField(auto_now_add=True, null=True)
+    user = models.OneToOneField(User, null=True)
+    useragent = models.CharField(max_length=256)
+
+    def __unicode__(self):
+        return "%s at %s by %s" % (self.link.shortcut, self.date, self.user)
+
+
 class LinkSubmitForm(forms.Form):
     url = forms.URLField(verify_exists=True,
                          label='URL to be shortened',
