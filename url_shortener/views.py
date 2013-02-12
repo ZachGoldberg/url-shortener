@@ -1,11 +1,14 @@
-from django.shortcuts import (
-    get_object_or_404,
-    render_to_response)
+from django.conf import settings
 from django.http import (
     Http404,
     HttpResponseRedirect)
+
 from django.template import RequestContext
-from django.conf import settings
+from django.shortcuts import (
+    get_object_or_404,
+    redirect,
+    render_to_response)
+
 
 from url_shortener.models import Click, Link, LinkSubmitForm
 
@@ -113,6 +116,9 @@ def index(request, values=None):
     """
     View for main page (lists recent and popular links)
     """
+    if settings.REQUIRE_VIEW_LOGIN and not request.user.is_staff:
+        return redirect('/admin/')
+
     if not values:
         values = default_values(request)
 
