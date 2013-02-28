@@ -1,3 +1,4 @@
+from django.contrib.admin.views.decorators import staff_member_required
 from django.conf import settings
 from django.http import (
     Http404,
@@ -85,6 +86,7 @@ def submit(request):
     if settings.REQUIRE_LOGIN and not request.user.is_authenticated():
         # TODO redirect to an error page
         raise Http404
+
     url = None
     link_form = None
     if request.GET:
@@ -120,6 +122,14 @@ def submit(request):
         context_instance=RequestContext(request))
 
 
+def custom_staff_member_required(view_func):
+    if settings.REQUIRE_VIEW_LOGIN:
+        return staff_member_required(view_func)
+    else:
+        return view_func
+
+
+@custom_staff_member_required
 def index(request, values=None):
     """
     View for main page (lists recent and popular links)
