@@ -70,6 +70,14 @@ def info(request, shortcut):
         context_instance=RequestContext(request))
 
 
+def edit(request, shortcut):
+    try:
+        link = Link.objects.get(shortcut=shortcut)
+        return redirect('/admin/url_shortener/link/%s/' % link.id)
+    except:
+        return redirect('/%s' % shortcut)
+
+
 def submit(request):
     """
     View for submitting a URL
