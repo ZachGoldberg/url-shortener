@@ -14,7 +14,7 @@ from django.shortcuts import (
 from url_shortener.models import Click, Link, LinkSubmitForm
 
 
-def follow(request, shortcut):
+def follow(request, shortcut, params=None):
     """
     View which gets the link for the given shortcut value
     and redirects to it.
@@ -33,7 +33,10 @@ def follow(request, shortcut):
             user=user,
             useragent=request.META['HTTP_USER_AGENT'])
 
-        return HttpResponseRedirect(link.url)
+	url = link.url
+	if params:
+            url = url + params
+        return HttpResponseRedirect(url)
     except:
         values = default_values(request)
         values["error"] = "This shortcut doesn't yet exit.  Create it now!"
