@@ -4,3 +4,6 @@
 .svn
 svn-commit.tmp
 svn-prop.tmp
+build/*
+*.egg-info
+setup.cfg
