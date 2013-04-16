@@ -38,7 +38,7 @@ class Link(models.Model):
     1
 
     """
-    url = models.URLField(verify_exists=False)
+    url = models.URLField()
     shortcut = models.CharField(max_length=128, unique=True)
     submitter = models.ForeignKey(User, null=True)
 
@@ -63,7 +63,7 @@ class Click(models.Model):
 
 
 class LinkSubmitForm(forms.Form):
-    url = forms.URLField(verify_exists=True,
+    url = forms.URLField(
                          label='URL to be shortened',
                          )
     shortcut = forms.CharField(max_length=128,
