@@ -14,7 +14,7 @@ Was shortened to:<br/>
 <br/>
 <br/>
 Score: {{ link.usage_count }}
-(<a href="{% url url_shortener.views.info link.shortcut %}">Info</a>)
+(<a href="{% url "url_shortener.views.info" link.shortcut %}">Info</a>)
 <br/>
 <br/>
 {% endblock %}
